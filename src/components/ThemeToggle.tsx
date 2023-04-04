@@ -1,5 +1,5 @@
 import { useTheme } from "next-themes";
-import { MoonIcon, SunIcon } from "@heroicons/react/24/solid";
+import { MoonIcon, SunIcon } from "@heroicons/react/24/outline";
 
 function ThemeToggle() {
   const { systemTheme, theme, setTheme } = useTheme();
@@ -13,12 +13,12 @@ function ThemeToggle() {
     <button
       onClick={toggleTheme}
       aria-label={isDark ? "light mode" : "dark mode"}
-      className='p-2 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-full'
+      className='p-2 hover:bg-gray-200 dark:hover:bg-slate-800 rounded-full'
     >
       {isDark ? (
         <SunIcon className='w-5 h-5' />
       ) : (
-        <MoonIcon className='w-4 h-4' />
+        <MoonIcon className='w-5 h-5' />
       )}
     </button>
   );

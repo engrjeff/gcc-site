@@ -15,7 +15,7 @@ const SermonPage: NextPage<Props> = ({ sermon, relatedSermonsbySeries }) => {
   return (
     <>
       <div
-        className='w-full min-h-[400px] bg-cover bg-center bg-no-repeat relative overflow-hidden'
+        className='w-full min-h-[350px] md:min-h-[400px] py-6 md:py-10 box-content bg-cover bg-center bg-no-repeat relative overflow-hidden'
         style={{ backgroundImage: `url("${sermon.thumbnailUrl}")` }}
       >
         <div className='absolute inset-0 p-4 lg:p-10 bg-black/80 h-full'>
@@ -25,7 +25,7 @@ const SermonPage: NextPage<Props> = ({ sermon, relatedSermonsbySeries }) => {
                 <p className='text-sm uppercase tracking-wider text-slate-300'>
                   {sermon.series}
                 </p>
-                <h1 className='text-5xl font-semibold max-w-[30ch]'>
+                <h1 className='text-4xl text-white md:text-5xl font-semibold max-w-[30ch]'>
                   {sermon.title}
                 </h1>
                 <p className='text-xs uppercase tracking-wider text-slate-300'>
@@ -42,21 +42,21 @@ const SermonPage: NextPage<Props> = ({ sermon, relatedSermonsbySeries }) => {
         <section>
           <h2 className='text-2xl font-semibold my-10'>Overview</h2>
           <h3 className='text-xl font-semibold mb-6'>{sermon.title}</h3>
-          <p className='uppercase text-slate-300 tracking-wider text-sm mb-3'>
+          <p className='uppercase dark:text-slate-300 tracking-wider text-sm mb-3'>
             Description
           </p>
           <p className='mb-6'>
             I will put a short description here so we can provide the listener a
             quick overview of what the message is all about. -jep
           </p>
-          <p className='uppercase text-slate-300 tracking-wider text-sm mb-3'>
+          <p className='uppercase dark:text-slate-300 tracking-wider text-sm mb-3'>
             Scripture references
           </p>
           <p className='mb-6'>Verse 1:2</p>
           <a
             href={sermon.audioUrl}
             download
-            className='inline-flex gap-3 px-4 py-3 rounded-full bg-slate-700 text-sm hover:bg-primary focus:ring focus:ring-primary focus:ring-offset-4 focus:ring-offset-coolnavy'
+            className='inline-flex gap-3 px-4 py-3 rounded-full bg-coolnavy dark:bg-slate-700 text-white text-sm hover:bg-primary dark:hover:bg-primary focus:ring focus:ring-primary focus:ring-offset-4 focus:ring-offset-coolnavy'
           >
             Download Sermon{" "}
             <span>

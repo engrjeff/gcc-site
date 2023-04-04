@@ -1,14 +1,16 @@
 import Container from "@/components/Container";
-import { getLatestSermon, Sermon } from "@/services/sermons";
+import SermonCard from "@/components/SermonCard";
+import { getLatestSermon, getRecentSermons, Sermon } from "@/services/sermons";
 import { ArrowUpRightIcon } from "@heroicons/react/24/solid";
 import type { NextPage, GetServerSideProps } from "next";
 import Link from "next/link";
 
 interface Props {
   latestSermon: Sermon;
+  recentSermons: Sermon[];
 }
 
-const HomePage: NextPage<Props> = ({ latestSermon }) => {
+const HomePage: NextPage<Props> = ({ latestSermon, recentSermons }) => {
   return (
     <>
       <div
@@ -22,7 +24,7 @@ const HomePage: NextPage<Props> = ({ latestSermon }) => {
                 <p className='text-sm uppercase tracking-wider text-slate-300'>
                   {latestSermon.series}
                 </p>
-                <h1 className='text-6xl lg:text-7xl font-semibold max-w-[20ch]'>
+                <h1 className='text-6xl lg:text-7xl text-white font-semibold max-w-[20ch]'>
                   {latestSermon.title}
                 </h1>
                 <p className='text-xs uppercase tracking-wider text-slate-300'>
@@ -31,7 +33,7 @@ const HomePage: NextPage<Props> = ({ latestSermon }) => {
               </div>
               <Link
                 href={`/resources/${latestSermon.id}`}
-                className='inline-flex self-start items-center justify-center bg-primary px-8 py-4 font-medium rounded-full hover:bg-indigo-600'
+                className='inline-flex self-start items-center text-white justify-center bg-primary px-8 py-4 font-medium rounded-full hover:bg-indigo-600'
               >
                 Listen Now{" "}
                 <span className='sr-only'>to {latestSermon.title}</span>
@@ -43,6 +45,25 @@ const HomePage: NextPage<Props> = ({ latestSermon }) => {
           </Container>
         </div>
       </div>
+      <Container>
+        <section className='py-10 md:py-20'>
+          <div className='flex items-center justify-between mb-6'>
+            <h2 className='text-3xl font-semibold'>Recent Sermons</h2>
+            <Link href='/resources' className='underline hover:text-primary'>
+              See All
+            </Link>
+          </div>
+          <ul className='grid md:grid-cols-3 gap-6 md:gap-8'>
+            {recentSermons?.map((sermon) => (
+              <li key={sermon.id}>
+                <Link href={`/resources/${sermon.id}`}>
+                  <SermonCard sermon={sermon} />
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </Container>
     </>
   );
 };
@@ -51,6 +72,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
   const latestSermon = await getLatestSermon();
+  const recentSermons = await getRecentSermons();
 
   if (!latestSermon)
     return {
@@ -60,6 +82,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   return {
     props: {
       latestSermon,
+      recentSermons: recentSermons.data ?? [],
     },
   };
 };

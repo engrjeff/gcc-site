@@ -40,7 +40,9 @@ export default function App({ Component, pageProps }: AppProps) {
   }, [router.events]);
 
   return (
-    <div className={`${poppins.variable} bg-coolnavy font-sans text-white`}>
+    <div
+      className={`${poppins.variable} dark:bg-coolnavy font-sans dark:text-white bg-white text-coolnavy`}
+    >
       <Head>
         <title>Grace City Church</title>
         <meta

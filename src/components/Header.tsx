@@ -12,7 +12,7 @@ function Header() {
     href === "/" ? router.pathname === href : router.pathname.includes(href);
 
   return (
-    <header className='sticky top-0 left-0 z-20 h-20 w-full bg-coolnavy text-white'>
+    <header className='sticky top-0 left-0 z-20 h-20 w-full dark:bg-coolnavy dark:text-white bg-white text-coolnavy px-3 border-b border-gray-200 dark:border-slate-800'>
       <nav className='container max-w-6xl flex h-full items-center'>
         <Link
           href='/'
@@ -33,7 +33,7 @@ function Header() {
                   "text-sm font-medium uppercase tracking-wider transition-colors",
                   isActive(item.path)
                     ? "text-primary hover:text-primary"
-                    : "text-slate-400 hover:text-white"
+                    : "text-gray-500 dark:text-slate-400 hover:text-primary dark:hover:text-white"
                 )}
               >
                 {item.label}
@@ -41,6 +41,9 @@ function Header() {
             </li>
           ))}
         </ul>
+        <div className='ml-auto'>
+          <ThemeToggle />
+        </div>
       </nav>
     </header>
   );

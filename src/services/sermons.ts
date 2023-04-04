@@ -17,6 +17,22 @@ export const getSermons = async () => {
   };
 };
 
+export const getRecentSermons = async () => {
+  const sermons = await supabase
+    .from("sermon")
+    .select()
+    .limit(3)
+    .order("recordingDate", { ascending: false });
+
+  return {
+    ...sermons,
+    data: sermons.data?.map((d) => ({
+      ...d,
+      recordingDate: formatDate(d.recordingDate),
+    })),
+  };
+};
+
 export const getSermonById = async (id: string) => {
   const sermon = await supabase.from("sermon").select().eq("id", id).single();
 
