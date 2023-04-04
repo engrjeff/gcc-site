@@ -8,6 +8,8 @@ import SermonCard from "@/components/SermonCard";
 import Tag from "@/components/Tag";
 import Search from "@/components/Search";
 import Head from "next/head";
+import { ChevronDownIcon } from "@heroicons/react/24/outline";
+import { cn } from "@/lib/helpers";
 
 interface Props {
   sermons: SermonResponse;
@@ -17,6 +19,7 @@ interface Props {
 const ResourcesPage: NextPage<Props> = (props) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [tagFilters, setTagFilters] = useState<string[]>([]);
+  const [tagsHidden, setTagsHidden] = useState(false);
 
   const { data: sermonList, error } = props.sermons;
 
@@ -42,6 +45,8 @@ const ResourcesPage: NextPage<Props> = (props) => {
     setSearchQuery(q);
   };
 
+  const toggleTagsVisibility = () => setTagsHidden((old) => !old);
+
   return (
     <Container>
       <Head>
@@ -58,20 +63,36 @@ const ResourcesPage: NextPage<Props> = (props) => {
           <Search onSearch={handleSearch} query={searchQuery} />
         </div>
         <div className='space-y-4 mb-10'>
-          <h2 className='mb-2'>Tags</h2>
-          <ul className='flex items-center gap-2 flex-wrap'>
-            {props.tags.map((tag) => (
-              <li key={tag}>
-                <button onClick={() => handleTagClick(tag)}>
-                  <Tag
-                    tag={tag}
-                    clickable
-                    selected={tagFilters.includes(tag)}
-                  />
-                </button>
-              </li>
-            ))}
-          </ul>
+          <div className='flex items-center justify-between mb-2'>
+            <h2>Tags</h2>
+            <button
+              onClick={toggleTagsVisibility}
+              className='flex items-center gap-2 py-1 text-sm rounded'
+            >
+              {tagsHidden ? "Show" : "Hide"} tags{" "}
+              <ChevronDownIcon
+                className={cn(
+                  "h-5 w-5 transition-transform",
+                  tagsHidden ? "rotate-0" : "rotate-180"
+                )}
+              />
+            </button>
+          </div>
+          {tagsHidden ? null : (
+            <ul className='flex items-center gap-2 flex-wrap'>
+              {props.tags.map((tag) => (
+                <li key={tag}>
+                  <button onClick={() => handleTagClick(tag)}>
+                    <Tag
+                      tag={tag}
+                      clickable
+                      selected={tagFilters.includes(tag)}
+                    />
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
         {!sermonsToDisplay?.length && Boolean(searchQuery) && (
           <p>No results found for `{searchQuery}`.</p>

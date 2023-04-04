@@ -17,7 +17,7 @@ const HomePage: NextPage<Props> = ({ latestSermon, recentSermons }) => {
         className='w-full h-[60vh] lg:h-[80vh] bg-cover bg-center bg-no-repeat relative overflow-hidden box-content'
         style={{ backgroundImage: `url("${latestSermon.thumbnailUrl}")` }}
       >
-        <div className='absolute inset-0 p-4 lg:p-10 bg-black/80'>
+        <div className='absolute inset-0 p-4 lg:p-10 bg-black/70'>
           <Container>
             <div className='h-full flex flex-col justify-center'>
               <div className='space-y-4 mb-12'>
@@ -33,7 +33,7 @@ const HomePage: NextPage<Props> = ({ latestSermon, recentSermons }) => {
               </div>
               <Link
                 href={`/resources/${latestSermon.id}`}
-                className='inline-flex self-start items-center text-white justify-center gap-4 bg-primary px-8 py-4 font-medium rounded-full hover:bg-indigo-600'
+                className='inline-flex self-start items-center text-white justify-center gap-4 bg-primary px-8 py-4 font-medium rounded-full hover:bg-indigo-700'
               >
                 Listen Now{" "}
                 <span className='sr-only'>to {latestSermon.title}</span>

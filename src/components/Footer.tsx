@@ -51,7 +51,7 @@ function Footer() {
             </a>
           </li>
           <li className='flex md:items-center gap-2 dark:text-slate-400'>
-            <MapPinIcon className='w-5 h-5' />
+            <MapPinIcon className='w-6 h-6' />
             <span>Address: </span>
             <span className='dark:text-white'>
               <span>

@@ -125,9 +125,9 @@ export default function App({ Component, pageProps }: AppProps) {
           href='/favicon-16x16.png'
         />
         <link rel='manifest' href='/manifest.json' />
-        <meta name='msapplication-TileColor' content='#ffffff' />
+        <meta name='msapplication-TileColor' content='#0F172A' />
         <meta name='msapplication-TileImage' content='/ms-icon-144x144.png' />
-        <meta name='theme-color' content='#ffffff' />
+        <meta name='theme-color' content='#0F172A' />
       </Head>
       <ThemeProvider attribute='class'>
         <Header />

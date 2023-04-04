@@ -27,7 +27,7 @@ const SermonPage: NextPage<Props> = ({ sermon, relatedSermonsbySeries }) => {
         className='w-full min-h-[350px] md:min-h-[400px] py-6 md:py-10 box-content bg-cover bg-center bg-no-repeat relative overflow-hidden'
         style={{ backgroundImage: `url("${sermon.thumbnailUrl}")` }}
       >
-        <div className='absolute inset-0 p-4 lg:p-10 bg-black/80 h-full'>
+        <div className='absolute inset-0 p-2 lg:p-10 bg-black/70 h-full'>
           <Container>
             <div className='h-full flex flex-col justify-center'>
               <div className='space-y-4 mb-10'>
@@ -75,7 +75,7 @@ const SermonPage: NextPage<Props> = ({ sermon, relatedSermonsbySeries }) => {
           <a
             href={sermon.audioUrl}
             download
-            className='inline-flex gap-3 px-4 py-3 rounded-full bg-coolnavy dark:bg-slate-700 text-white text-sm hover:bg-primary dark:hover:bg-primary focus:ring focus:ring-primary focus:ring-offset-4 focus:ring-offset-coolnavy'
+            className='inline-flex gap-3 px-4 py-3 rounded-full bg-coolnavy dark:bg-slate-700 text-white text-sm hover:bg-primary dark:hover:bg-primary focus:ring-2 focus:ring-primary focus:ring-offset-4 focus:ring-offset-coolnavy'
           >
             Download Sermon{" "}
             <span>
