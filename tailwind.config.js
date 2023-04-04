@@ -28,9 +28,10 @@ module.exports = {
       },
       colors: {
         coolnavy: "#0F172A",
-        primary: "#534cda",
+        // primary: "#534cda",
+        primary: "#4f46e5",
       },
     },
   },
-  plugins: [require("@tailwindcss/typography")],
+  plugins: [require("@tailwindcss/typography"), require("@tailwindcss/forms")],
 };

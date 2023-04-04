@@ -14,17 +14,17 @@ const HomePage: NextPage<Props> = ({ latestSermon, recentSermons }) => {
   return (
     <>
       <div
-        className='w-full h-[60vh] lg:h-[80vh] bg-cover bg-center bg-no-repeat relative overflow-hidden'
+        className='w-full h-[60vh] lg:h-[80vh] bg-cover bg-center bg-no-repeat relative overflow-hidden box-content'
         style={{ backgroundImage: `url("${latestSermon.thumbnailUrl}")` }}
       >
-        <div className='absolute inset-0 p-6 lg:p-10 bg-black/80'>
+        <div className='absolute inset-0 p-4 lg:p-10 bg-black/80'>
           <Container>
             <div className='h-full flex flex-col justify-center'>
               <div className='space-y-4 mb-12'>
                 <p className='text-sm uppercase tracking-wider text-slate-300'>
                   {latestSermon.series}
                 </p>
-                <h1 className='text-6xl lg:text-7xl text-white font-semibold max-w-[20ch]'>
+                <h1 className='text-5xl lg:text-8xl text-white font-semibold max-w-[20ch]'>
                   {latestSermon.title}
                 </h1>
                 <p className='text-xs uppercase tracking-wider text-slate-300'>
@@ -33,7 +33,7 @@ const HomePage: NextPage<Props> = ({ latestSermon, recentSermons }) => {
               </div>
               <Link
                 href={`/resources/${latestSermon.id}`}
-                className='inline-flex self-start items-center text-white justify-center bg-primary px-8 py-4 font-medium rounded-full hover:bg-indigo-600'
+                className='inline-flex self-start items-center text-white justify-center gap-4 bg-primary px-8 py-4 font-medium rounded-full hover:bg-indigo-600'
               >
                 Listen Now{" "}
                 <span className='sr-only'>to {latestSermon.title}</span>
@@ -48,12 +48,14 @@ const HomePage: NextPage<Props> = ({ latestSermon, recentSermons }) => {
       <Container>
         <section className='py-10 md:py-20'>
           <div className='flex items-center justify-between mb-6'>
-            <h2 className='text-3xl font-semibold'>Recent Sermons</h2>
+            <h2 className='text-2xl md:text-3xl font-semibold'>
+              Recent Sermons
+            </h2>
             <Link href='/resources' className='underline hover:text-primary'>
               See All
             </Link>
           </div>
-          <ul className='grid md:grid-cols-3 gap-6 md:gap-8'>
+          <ul className='grid md:grid-cols-3 gap-6 md:gap-8 grid-rows-1'>
             {recentSermons?.map((sermon) => (
               <li key={sermon.id}>
                 <Link href={`/resources/${sermon.id}`}>

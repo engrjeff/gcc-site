@@ -22,6 +22,7 @@ function AudioPlayer(props: AudioPlayerProps) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [duration, setDuration] = useState(0);
   const [currentProgress, setCurrrentProgress] = useState(0);
+  const [buffered, setBuffered] = useState(0);
   const [isReady, setIsReady] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -31,6 +32,8 @@ function AudioPlayer(props: AudioPlayerProps) {
   const progressBarWidth = isNaN(currentProgress / duration)
     ? 0
     : currentProgress / duration;
+
+  const bufferedWidth = isNaN(buffered / duration) ? 0 : buffered / duration;
 
   const togglePlayPause = () => {
     if (isPlaying) {
@@ -42,16 +45,50 @@ function AudioPlayer(props: AudioPlayerProps) {
     }
   };
 
+  // handler
+  const handleBufferProgress: React.ReactEventHandler<HTMLAudioElement> = (
+    e
+  ) => {
+    const audio = e.currentTarget;
+    const dur = audio.duration;
+    if (dur > 0) {
+      for (let i = 0; i < audio.buffered.length; i++) {
+        if (
+          audio.buffered.start(audio.buffered.length - 1 - i) <
+          audio.currentTime
+        ) {
+          const bufferedLength = audio.buffered.end(
+            audio.buffered.length - 1 - i
+          );
+          setBuffered(bufferedLength);
+          break;
+        }
+      }
+    }
+  };
+
   return (
     <div className='relative overflow-hidden flex items-center justify-between gap-6 p-4 text-white bg-white/10 rounded-2xl backdrop-blur-sm'>
       <div
-        className='absolute inset-0 bg-primary/10 origin-left'
+        className='absolute inset-0 bg-primary/30 origin-left'
         style={{
           transform: `scaleX(${progressBarWidth})`,
         }}
       ></div>
-      <div className='space-y-2'>
-        <p className='text-sm'>Now Playing</p>
+      <div
+        className='absolute inset-0 bg-primary/20 origin-left'
+        style={{
+          transform: `scaleX(${bufferedWidth})`,
+        }}
+      ></div>
+      <div className='space-y-2 z-[2]'>
+        <p className='text-sm'>
+          {!isReady
+            ? "Loading..."
+            : isPlaying
+            ? "Now Playing"
+            : "Start Listening Now"}
+        </p>
         <div className='flex items-center gap-3'>
           <MusicalNoteIcon className='h-5 w-5' />
           <span className='text-xs w-20'>
@@ -80,9 +117,12 @@ function AudioPlayer(props: AudioPlayerProps) {
         onCanPlay={(e) => setIsReady(true)}
         onPlaying={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}
+        onWaiting={() => console.log("waiting")}
         onTimeUpdate={(e) => {
           setCurrrentProgress(e.currentTarget.currentTime);
+          handleBufferProgress(e);
         }}
+        onProgress={handleBufferProgress}
       >
         <source type='audio/mpeg' src={audioSrc} />
       </audio>

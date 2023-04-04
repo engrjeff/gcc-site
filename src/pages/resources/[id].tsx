@@ -1,10 +1,16 @@
-import AudioPlayer from "@/components/AudioPlayer";
 import Container from "@/components/Container";
 import MediaListItem from "@/components/MediaListItem";
+import Tag from "@/components/Tag";
 import { Sermon, getSermonById, getSermonsBySeries } from "@/services/sermons";
 import { ArrowDownTrayIcon, PlayIcon } from "@heroicons/react/24/solid";
 import type { NextPage, GetServerSideProps } from "next";
+import dynamic from "next/dynamic";
+import Head from "next/head";
 import Link from "next/link";
+
+const AudioPlayer = dynamic(() => import("@/components/AudioPlayer"), {
+  ssr: false,
+});
 
 interface Props {
   sermon: Sermon;
@@ -14,6 +20,9 @@ interface Props {
 const SermonPage: NextPage<Props> = ({ sermon, relatedSermonsbySeries }) => {
   return (
     <>
+      <Head>
+        <title>{sermon.title}</title>
+      </Head>
       <div
         className='w-full min-h-[350px] md:min-h-[400px] py-6 md:py-10 box-content bg-cover bg-center bg-no-repeat relative overflow-hidden'
         style={{ backgroundImage: `url("${sermon.thumbnailUrl}")` }}
@@ -39,9 +48,19 @@ const SermonPage: NextPage<Props> = ({ sermon, relatedSermonsbySeries }) => {
       </div>
       {/* RELATED */}
       <Container>
-        <section>
-          <h2 className='text-2xl font-semibold my-10'>Overview</h2>
+        <section className='mb-10'>
+          <h2 className='text-2xl font-semibold my-8'>Overview</h2>
           <h3 className='text-xl font-semibold mb-6'>{sermon.title}</h3>
+          <p className='uppercase dark:text-slate-300 tracking-wider text-sm mb-3'>
+            Tags
+          </p>
+          <ul className='flex items-center gap-2 flex-wrap mb-6'>
+            {sermon.tags.map((tag) => (
+              <li key={tag}>
+                <Tag tag={tag} />
+              </li>
+            ))}
+          </ul>
           <p className='uppercase dark:text-slate-300 tracking-wider text-sm mb-3'>
             Description
           </p>
@@ -64,28 +83,30 @@ const SermonPage: NextPage<Props> = ({ sermon, relatedSermonsbySeries }) => {
             </span>
           </a>
         </section>
-        <section>
-          <h2 className='text-2xl font-semibold my-10'>
-            Sermons under the same series
-          </h2>
-          <ul className='mb-20'>
-            {relatedSermonsbySeries.map((sermon, index) => (
-              <li key={sermon.id} className='mb-1'>
-                <Link href={`/resources/${sermon.id}`}>
-                  <MediaListItem
-                    index={index}
-                    title={sermon.title}
-                    subtitle={sermon.series!}
-                    subtitle2={sermon.recordingDate}
-                    thumbnail={sermon.thumbnailUrl}
-                    trailingIcon={<PlayIcon className='h-5 w-5' />}
-                    trailingText='Listen Now'
-                  />
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </section>
+        {relatedSermonsbySeries.length > 0 && (
+          <section>
+            <h2 className='text-2xl font-semibold mb-10'>
+              Sermons under the same series
+            </h2>
+            <ul className='mb-20'>
+              {relatedSermonsbySeries.map((sermon, index) => (
+                <li key={sermon.id} className='mb-1'>
+                  <Link href={`/resources/${sermon.id}`}>
+                    <MediaListItem
+                      index={index}
+                      title={sermon.title}
+                      subtitle={sermon.series!}
+                      subtitle2={sermon.recordingDate}
+                      thumbnail={sermon.thumbnailUrl}
+                      trailingIcon={<PlayIcon className='h-5 w-5' />}
+                      trailingText='Listen Now'
+                    />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
       </Container>
     </>
   );
