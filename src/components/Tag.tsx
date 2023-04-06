@@ -10,16 +10,11 @@ const Tag = ({
   clickable?: boolean;
   selected?: boolean;
 }) => {
-  const baseClass = clickable
-    ? "hover:bg-gray-300 dark:hover:bg-slate-600"
-    : "bg-gray-200 text-gray-600 dark:text-slate-200 dark:bg-slate-700";
-
   return (
     <div
       className={cn(
         "flex items-center justify-center py-2 px-2.5 rounded-full",
-        baseClass,
-        selected && clickable
+        selected
           ? "bg-primary text-white dark:text-white dark:bg-primary"
           : "bg-gray-200 text-gray-600 dark:text-slate-200 dark:bg-slate-700"
       )}
