@@ -22,6 +22,7 @@ const SermonPage: NextPage<Props> = ({ sermon, relatedSermonsbySeries }) => {
     <>
       <Head>
         <title>{sermon.title}</title>
+        <meta name='og:image' content={sermon.thumbnailUrl} />
       </Head>
       <div
         className='w-full min-h-[350px] md:min-h-[400px] py-6 md:py-10 box-content bg-cover bg-center bg-no-repeat relative overflow-hidden'
