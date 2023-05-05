@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import type { NextPage, GetServerSideProps } from "next";
+import * as Select from "@radix-ui/react-select";
 
 import { getSermons, SermonResponse } from "@/services/sermons";
 import Container from "@/components/Container";
@@ -19,9 +20,8 @@ interface Props {
 const ResourcesPage: NextPage<Props> = (props) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [tagFilters, setTagFilters] = useState<string[]>([]);
-  const [tagsHidden, setTagsHidden] = useState(false);
 
-  const { data: sermonList, error } = props.sermons;
+  const { data: sermonList } = props.sermons;
 
   let filteredSermons = sermonList?.filter((p) =>
     p.title.toLowerCase().includes(searchQuery.toLowerCase())
@@ -34,18 +34,10 @@ const ResourcesPage: NextPage<Props> = (props) => {
           p.tags.some((t) => tagFilters.includes(t))
         );
 
-  const handleTagClick = (tag: string) => {
-    setTagFilters((old) =>
-      old.includes(tag) ? old.filter((t) => t !== tag) : [...old, tag]
-    );
-  };
-
   const handleSearch = (q: string) => {
     setTagFilters([]);
     setSearchQuery(q);
   };
-
-  const toggleTagsVisibility = () => setTagsHidden((old) => !old);
 
   return (
     <Container>
@@ -56,43 +48,47 @@ const ResourcesPage: NextPage<Props> = (props) => {
         <div className='mb-10 space-y-3'>
           <h1 className='text-3xl font-semibold'>Sermons</h1>
           <p className='text-gray-500 dark:text-slate-400'>
-            Start listening to sermons by clicking one below
+            Biblical, Christ-centered sermons to feed your soul
           </p>
         </div>
-        <div>
-          <Search onSearch={handleSearch} query={searchQuery} />
-        </div>
-        <div className='space-y-4 mb-10'>
-          <div className='flex items-center justify-between mb-2'>
-            <h2>Tags</h2>
-            <button
-              onClick={toggleTagsVisibility}
-              className='flex items-center gap-2 py-1 text-sm rounded'
-            >
-              {tagsHidden ? "Show" : "Hide"} tags{" "}
-              <ChevronDownIcon
-                className={cn(
-                  "h-5 w-5 transition-transform",
-                  tagsHidden ? "rotate-0" : "rotate-180"
-                )}
-              />
-            </button>
+        <div className='flex items-center my-8'>
+          <div className='flex-1'>
+            <Search onSearch={handleSearch} query={searchQuery} />
           </div>
-          {tagsHidden ? null : (
-            <ul className='flex items-center gap-2 flex-wrap'>
-              {props.tags.map((tag) => (
-                <li key={tag}>
-                  <button onClick={() => handleTagClick(tag)}>
-                    <Tag
-                      tag={tag}
-                      clickable
-                      selected={tagFilters.includes(tag)}
-                    />
-                  </button>
-                </li>
-              ))}
-            </ul>
-          )}
+          <div className='ml-auto hidden'>
+            <Select.Root>
+              <Select.Trigger className='w-48 relative flex items-center justify-between gap-3 px-4 py-3 bg-transparent focus:ring-2 border border-gray-300 dark:border-slate-600 dark:focus:border-transparent focus:border-transparent focus:ring-primary rounded-full outline-none capitalize'>
+                <Select.Value placeholder='Select a topic' />
+                <Select.Icon>
+                  <ChevronDownIcon className='w-5 h-5' />
+                </Select.Icon>
+              </Select.Trigger>
+
+              <Select.Portal>
+                <Select.Content
+                  position='popper'
+                  className='overflow-hidden font-sans w-44 p-1 bg-white dark:bg-slate-900 border rounded shadow-sm border-gray-300 dark:border-slate-600'
+                >
+                  <Select.ScrollUpButton>
+                    <ChevronDownIcon className='w-5 h-5 rotate-180' />
+                  </Select.ScrollUpButton>
+                  <Select.Viewport className='font-sans'>
+                    {props.tags.map((tag) => (
+                      <Select.Item
+                        key={tag}
+                        value={tag}
+                        className='p-1 text-base capitalize flex items-center'
+                      >
+                        <Select.ItemText className='inline-block'>
+                          {tag}
+                        </Select.ItemText>
+                      </Select.Item>
+                    ))}
+                  </Select.Viewport>
+                </Select.Content>
+              </Select.Portal>
+            </Select.Root>
+          </div>
         </div>
         {!sermonsToDisplay?.length && Boolean(searchQuery) && (
           <p>No results found for `{searchQuery}`.</p>

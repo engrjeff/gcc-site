@@ -21,7 +21,7 @@ export const getRecentSermons = async () => {
   const sermons = await supabase
     .from("sermon")
     .select()
-    .limit(3)
+    .range(1, 3)
     .order("recordingDate", { ascending: false });
 
   return {

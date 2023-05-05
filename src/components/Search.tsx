@@ -5,14 +5,14 @@ interface SearchProps {
 
 const Search = ({ query, onSearch }: SearchProps) => {
   return (
-    <div className='relative my-10'>
+    <div className='relative'>
       <input
         value={query}
         onChange={(e) => onSearch(e.currentTarget.value)}
         onReset={(e) => onSearch("")}
         type='search'
         placeholder='Search'
-        className='w-full md:w-1/2 appearance-none pl-12 pr-4 h-14 bg-transparent placeholder:text-gray-400 dark:placeholder:text-slate-400 focus:ring-2 border-gray-300 dark:border-slate-600 dark:focus:border-transparent focus:border-transparent rounded-full duration-150 transition-colors focus:ring-primary'
+        className='w-full md:w-1/2 appearance-none pl-12 pr-4 h-[50px] bg-transparent placeholder:text-gray-400 dark:placeholder:text-slate-400 focus:ring-2 border-gray-300 dark:border-slate-600 dark:focus:border-transparent focus:border-transparent rounded-full duration-150 transition-colors focus:ring-primary'
       />
       <svg
         xmlns='http://www.w3.org/2000/svg'

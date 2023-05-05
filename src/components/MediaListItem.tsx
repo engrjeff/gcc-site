@@ -23,8 +23,8 @@ function MediaListItem(props: MediaListItemProps) {
   } = props;
 
   return (
-    <div className='flex md:items-center gap-4 lg:gap-10 px-2 md:px-4 py-2 hover:bg-gray-100 dark:hover:bg-slate-800 rounded-lg group'>
-      <span className='text-xl lg:text-2xl font-bold text-gray-300 dark:text-slate-600'>
+    <div className='flex items-center gap-4 lg:gap-10 px-0 md:px-4 py-2 hover:bg-gray-100 dark:hover:bg-slate-800 rounded-lg group'>
+      <span className='text-base lg:text-2xl font-bold text-gray-300 dark:text-slate-600'>
         {index < 10 ? "0" + (index + 1) : index + 1}
       </span>
       <div className='w-14 h-14 md:w-16 md:h-16 aspect-square relative'>
@@ -37,7 +37,9 @@ function MediaListItem(props: MediaListItemProps) {
         />
       </div>
       <div className='space-y-1 md:space-y-2'>
-        <h3 className='font-medium text-sm md:text-base'>{title}</h3>
+        <h3 className='font-medium text-sm md:text-base line-clamp-1'>
+          {title}
+        </h3>
         <div className='flex md:items-center flex-col md:flex-row text-xs md:text-sm text-gray-500 dark:text-slate-300'>
           <p>{subtitle}</p>
           {subtitle2 ? (

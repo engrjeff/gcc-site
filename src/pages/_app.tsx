@@ -130,12 +130,14 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta name='theme-color' content='#0F172A' />
       </Head>
       <ThemeProvider attribute='class'>
-        <Header />
-        <MobileMenu />
-        <main>
-          <Component {...pageProps} />
-        </main>
-        <Footer />
+        <div className='flex flex-col min-h-screen'>
+          <Header />
+          <MobileMenu />
+          <main className='flex-1 pb-16'>
+            <Component {...pageProps} />
+          </main>
+          <Footer />
+        </div>
       </ThemeProvider>
     </div>
   );

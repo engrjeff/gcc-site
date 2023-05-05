@@ -1,9 +1,10 @@
-import { useState, useRef } from "react";
+import { useState, useRef, MouseEvent } from "react";
 import {
   MusicalNoteIcon,
   PauseIcon,
   PlayIcon,
 } from "@heroicons/react/24/solid";
+import useDimension from "@/hooks/useDimension";
 
 function formatDurationDisplay(duration: number) {
   const min = Math.floor(duration / 60);
@@ -16,6 +17,8 @@ interface AudioPlayerProps {
   audioSrc: string;
 }
 
+type AudioState = "LOADING" | "READY" | "PLAYING" | "PAUSED";
+
 function AudioPlayer(props: AudioPlayerProps) {
   const { audioSrc } = props;
 
@@ -23,8 +26,10 @@ function AudioPlayer(props: AudioPlayerProps) {
   const [duration, setDuration] = useState(0);
   const [currentProgress, setCurrrentProgress] = useState(0);
   const [buffered, setBuffered] = useState(0);
-  const [isReady, setIsReady] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false);
+
+  const [audioState, setAudioState] = useState<AudioState>("LOADING");
+
+  const [trackRef, trackDimension] = useDimension<HTMLDivElement>();
 
   const durationDisplay = formatDurationDisplay(duration);
   const elapsedDisplay = formatDurationDisplay(currentProgress);
@@ -36,12 +41,14 @@ function AudioPlayer(props: AudioPlayerProps) {
   const bufferedWidth = isNaN(buffered / duration) ? 0 : buffered / duration;
 
   const togglePlayPause = () => {
-    if (isPlaying) {
+    if (audioState === "PLAYING") {
       audioRef.current?.pause();
-      setIsPlaying(false);
+
+      setAudioState("PAUSED");
     } else {
       audioRef.current?.play();
-      setIsPlaying(true);
+
+      setAudioState("PLAYING");
     }
   };
 
@@ -67,8 +74,27 @@ function AudioPlayer(props: AudioPlayerProps) {
     }
   };
 
+  const handleSeek = (e: MouseEvent<HTMLDivElement>) => {
+    if (!audioRef.current) return;
+    // get the bounding rect
+    const { width } = trackDimension;
+    // get the current x position
+    const x = e.clientX - e.currentTarget.offsetLeft;
+    // // map the audio length to width
+    const seekDuration = duration * (x / width);
+
+    setCurrrentProgress(seekDuration);
+
+    audioRef.current.currentTime = seekDuration;
+  };
+
   return (
-    <div className='relative overflow-hidden flex items-center justify-between gap-6 p-4 text-white bg-white/10 rounded-2xl backdrop-blur-sm'>
+    <div
+      ref={trackRef}
+      onClick={handleSeek}
+      className='cursor-pointer relative overflow-hidden flex items-center justify-between gap-6 p-4 text-white bg-white/10 rounded-2xl backdrop-blur-sm'
+    >
+      <span className='absolute -top-10 left-0'>Tooltip</span>
       <div
         className='absolute inset-0 bg-primary/30 origin-left'
         style={{
@@ -83,10 +109,12 @@ function AudioPlayer(props: AudioPlayerProps) {
       ></div>
       <div className='space-y-2 z-[2]'>
         <p className='text-sm'>
-          {!isReady
+          {audioState === "LOADING"
             ? "Loading..."
-            : isPlaying
+            : audioState === "PLAYING"
             ? "Now Playing"
+            : audioState === "PAUSED"
+            ? "Paused"
             : "Start Listening Now"}
         </p>
         <div className='flex items-center gap-3'>
@@ -97,13 +125,18 @@ function AudioPlayer(props: AudioPlayerProps) {
         </div>
       </div>
       <button
-        disabled={!isReady}
-        onClick={togglePlayPause}
+        disabled={audioState === "LOADING"}
+        onClick={(e) => {
+          e.stopPropagation();
+          togglePlayPause();
+        }}
         className='z-[2] flex items-center justify-center h-12 w-12 bg-white rounded-full shadow-3xl shadow-white text-coolnavy hover:text-white hover:bg-primary transition-colors'
       >
-        <span className='sr-only'>{isPlaying ? "Pause" : "Play"}</span>
+        <span className='sr-only'>
+          {audioState === "PLAYING" ? "Pause" : "Play"}
+        </span>
         <span>
-          {isPlaying ? (
+          {audioState === "PLAYING" ? (
             <PauseIcon className='h-5 w-5' />
           ) : (
             <PlayIcon className='h-5 w-5' />
@@ -114,10 +147,16 @@ function AudioPlayer(props: AudioPlayerProps) {
         ref={audioRef}
         preload='metadata'
         onDurationChange={(e) => setDuration(e.currentTarget.duration)}
-        onCanPlay={(e) => setIsReady(true)}
-        onPlaying={() => setIsPlaying(true)}
-        onPause={() => setIsPlaying(false)}
-        onWaiting={() => console.log("waiting")}
+        onCanPlay={(e) => {
+          setAudioState("READY");
+        }}
+        onPlaying={() => {
+          setAudioState("PLAYING");
+        }}
+        onPause={() => {
+          setAudioState("PAUSED");
+        }}
+        onWaiting={() => setAudioState("LOADING")}
         onTimeUpdate={(e) => {
           setCurrrentProgress(e.currentTarget.currentTime);
           handleBufferProgress(e);

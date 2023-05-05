@@ -1,6 +1,8 @@
 import Link from "next/link";
 
 import { EnvelopeIcon, PhoneIcon, MapPinIcon } from "@heroicons/react/24/solid";
+import { useRouter } from "next/router";
+import { cn } from "@/lib/helpers";
 
 const footerLinks = [
   {
@@ -26,9 +28,18 @@ const footerLinks = [
 ];
 
 function Footer() {
+  const router = useRouter();
+
+  const isAbout = router.pathname.includes("about");
+
   return (
-    <footer className='dark:bg-slate-900 dark:text-white border-t border-gray-200 dark:border-slate-800 text-sm'>
-      <div className='container mx-auto max-w-6xl flex py-16'>
+    <footer
+      className={cn(
+        "dark:bg-slate-900 dark:text-white border-t border-gray-200 dark:border-slate-800 text-sm",
+        isAbout ? "" : "hidden md:block"
+      )}
+    >
+      <div className='container mx-auto max-w-6xl flex py-16 mb-16 md:mb-0'>
         <ul className='space-y-3'>
           <li className='mb-8'>
             <p className='text-2xl font-semibold'>Contact Us</p>
@@ -62,7 +73,7 @@ function Footer() {
           </li>
         </ul>
       </div>
-      <div className='py-16 border-t border-gray-200 dark:border-slate-800 text-center'>
+      <div className='hidden md:block py-16 border-t border-gray-200 dark:border-slate-800 text-center'>
         <p>All rights reserved. Copyright &copy; {new Date().getFullYear()}</p>
       </div>
     </footer>

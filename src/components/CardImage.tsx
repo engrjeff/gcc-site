@@ -10,7 +10,7 @@ function CardImage({ src, alt }: CardImageProps) {
   const [isLoading, setLoading] = useState(true);
 
   return (
-    <div className='relative aspect-video overflow-hidden'>
+    <div className='relative aspect-square md:aspect-video overflow-hidden'>
       <Image
         src={src}
         alt={alt}
@@ -18,9 +18,7 @@ function CardImage({ src, alt }: CardImageProps) {
         fill
         className={[
           "object-cover object-center group-hover:scale-105 transition-transform duration-300 group-hover:opacity-75",
-          isLoading
-            ? "grayscale blur-2xl scale-110"
-            : "grayscale-0 blur-0 scale-100",
+          isLoading ? "grayscale blur-2xl" : "grayscale-0 blur-0",
         ].join(" ")}
         onLoadingComplete={() => setLoading(false)}
       />
