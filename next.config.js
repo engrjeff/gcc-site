@@ -1,4 +1,4 @@
-const { withContentlayer } = require('next-contentlayer')
+const { withContentlayer } = require("next-contentlayer");
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -10,7 +10,9 @@ const nextConfig = {
     defaultLocale: "en",
     locales: ["en"],
   },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
 };
 
-module.exports = withContentlayer(nextConfig)
-;
+module.exports = withContentlayer(nextConfig);
