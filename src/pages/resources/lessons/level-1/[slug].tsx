@@ -14,7 +14,7 @@ const LessonPage: NextPage<{ lesson: Lesson }> = ({ lesson }) => {
   return (
     <Container>
       <Head>
-        <title>{lesson.title} - Grace City Church</title>
+        <title>Lessons - Grace City Church</title>
       </Head>
       <div className='flex gap-2 max-w-prose mt-8 text-sm'>
         <Link
