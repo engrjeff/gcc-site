@@ -10,7 +10,8 @@ import MobileMenu from "@/components/MobileMenu";
 import NProgress from "nprogress";
 import "@/styles/nprogress.css";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, type ReactNode, type ReactElement } from "react";
+import { type NextPage } from "next";
 
 NProgress.configure({ showSpinner: false });
 
@@ -20,7 +21,15 @@ const poppins = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
-export default function App({ Component, pageProps }: AppProps) {
+export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
+  getLayout?: (page: ReactElement) => ReactNode;
+};
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout;
+};
+
+export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const router = useRouter();
 
   useEffect(() => {
@@ -38,6 +47,8 @@ export default function App({ Component, pageProps }: AppProps) {
       router.events.off("routeChangeError", handleRouteDone);
     };
   }, [router.events]);
+
+  const getLayout = Component.getLayout ?? ((page) => page);
 
   return (
     <div
@@ -125,16 +136,16 @@ export default function App({ Component, pageProps }: AppProps) {
           href='/favicon-16x16.png'
         />
         <link rel='manifest' href='/manifest.json' />
-        <meta name='msapplication-TileColor' content='#0F172A' />
+        <meta name='msapplication-TileColor' content='#030712' />
         <meta name='msapplication-TileImage' content='/ms-icon-144x144.png' />
-        <meta name='theme-color' content='#0F172A' />
+        <meta name='theme-color' content='#030712' />
       </Head>
       <ThemeProvider attribute='class'>
         <div className='flex flex-col min-h-screen'>
           <Header />
           <MobileMenu />
           <main className='flex-1 pb-16'>
-            <Component {...pageProps} />
+            {getLayout(<Component {...pageProps} />)}
           </main>
           <Footer />
         </div>

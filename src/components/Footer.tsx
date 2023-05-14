@@ -35,7 +35,7 @@ function Footer() {
   return (
     <footer
       className={cn(
-        "dark:bg-slate-900 dark:text-white border-t border-gray-200 dark:border-slate-800 text-sm",
+        "dark:bg-coolnavy dark:text-white border-t border-gray-200 dark:border-slate-800 text-sm",
         isAbout ? "" : "hidden md:block"
       )}
     >

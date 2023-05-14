@@ -3,7 +3,7 @@ import CardImage from "./CardImage";
 
 const SermonCard = ({ sermon }: { sermon: Sermon }) => {
   return (
-    <div className='overflow-hidden h-full flex md:block rounded-lg bg-white border border-gray-300 dark:border-slate-800 dark:bg-slate-800 dark:shadow group'>
+    <div className='overflow-hidden h-full flex md:block rounded-lg bg-white border border-gray-300 dark:border-slate-800 dark:bg-coolnavy dark:shadow group'>
       <div className='w-[100px] md:w-auto'>
         <CardImage src={sermon.thumbnailUrl} alt={sermon.title} />
       </div>

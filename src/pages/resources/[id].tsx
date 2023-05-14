@@ -39,7 +39,10 @@ const SermonPage: NextPage<Props> = ({ sermon, relatedSermonsbySeries }) => {
                   {sermon.title}
                 </h1>
                 <p className='text-xs uppercase tracking-wider text-slate-300'>
-                  Preached on {sermon.recordingDate} by {sermon.speaker}
+                  Preached on {sermon.recordingDate}
+                </p>
+                <p className='text-xs uppercase tracking-wider text-slate-300'>
+                  by {sermon.speaker}
                 </p>
               </div>
               <AudioPlayer key={sermon.id} audioSrc={sermon.audioUrl} />

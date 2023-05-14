@@ -27,9 +27,19 @@ module.exports = {
         sans: ["var(--font-poppins)", ...fontFamily.sans],
       },
       colors: {
-        coolnavy: "#0F172A",
+        // coolnavy: "#0F172A",
+        coolnavy: "#030712",
         // primary: "#534cda",
         primary: "#4f46e5",
+        // primary: "#f59e0b",
+      },
+      typography: {
+        quoteless: {
+          css: {
+            "blockquote p:first-of-type::before": { content: "none" },
+            "blockquote p:first-of-type::after": { content: "none" },
+          },
+        },
       },
     },
   },
