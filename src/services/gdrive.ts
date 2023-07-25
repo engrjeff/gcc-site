@@ -2,6 +2,11 @@ import { google } from "googleapis";
 
 const auth = new google.auth.GoogleAuth({
   scopes: ["https://www.googleapis.com/auth/drive"],
+  credentials: {
+    client_id: process.env.GOOGLE_CLIENT_ID,
+    client_email: process.env.GOOGLE_CLIENT_EMAIL,
+    private_key: process.env.GOOGLE_PRIVATE_KEY,
+  },
 });
 
 const gdrive = google.drive({
