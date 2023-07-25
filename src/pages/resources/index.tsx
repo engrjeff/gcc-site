@@ -9,7 +9,6 @@ import Tag from "@/components/Tag";
 import Search from "@/components/Search";
 import Head from "next/head";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
-import { cn } from "@/lib/helpers";
 import { NextPageWithLayout } from "../_app";
 import ResourcesLayout from "@/components/ResourcesLayout";
 

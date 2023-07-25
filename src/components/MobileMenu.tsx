@@ -25,7 +25,7 @@ function MobileMenu() {
     href === "/" ? router.pathname === href : router.pathname.includes(href);
 
   return (
-    <nav className='h-14 w-full dark:bg-slate-900 bg-white fixed bottom-0 left-0 z-10 shadow-md border-t border-gray-200 dark:border-slate-800 md:hidden'>
+    <nav className='h-14 w-full dark:bg-coolnavy bg-white fixed bottom-0 left-0 z-10 shadow-md border-t border-gray-200 dark:border-slate-800 md:hidden'>
       <ul className='flex'>
         {appLinks.map((linkItem) => (
           <li key={linkItem.label} className='flex-1'>
