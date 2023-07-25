@@ -5,7 +5,7 @@ import Container from "./Container";
 import { cn } from "@/lib/helpers";
 
 interface ResourcesLayoutProps {
-  title: string;
+  title: ReactNode;
   subtitle: string;
   children: ReactNode;
 }
@@ -44,9 +44,8 @@ const SubLink = (props: ComponentProps<typeof Link>) => {
   return (
     <Link
       {...props}
-      onClick={handleClick}
       className={cn(
-        "text-sm font-medium uppercase tracking-wider transition-colors",
+        "text-sm font-medium  transition-colors",
         isActive
           ? "text-primary hover:text-primary"
           : "text-gray-500 dark:text-slate-400 hover:text-primary dark:hover:text-white"
@@ -62,10 +61,13 @@ function ResourcesLayout({ title, subtitle, children }: ResourcesLayoutProps) {
         <div className='pb-6 space-x-6 border-b border-gray-200 dark:border-slate-800 mb-6'>
           <SubLink href='/resources'>Sermons</SubLink>
           <SubLink href='/resources/lessons'>Lessons</SubLink>
+          <SubLink href='/resources/preaching-slides'>Preaching Slides</SubLink>
         </div>
-        <div className='mb-8 space-y-3'>
-          <h1 className='text-3xl font-semibold'>{title}</h1>
-          <p className='text-gray-500 dark:text-slate-400'>{subtitle}</p>
+        <div className='mb-6 lg:mb-8 space-y-2 lg:space-y-3'>
+          <h1 className='text-xl lg:text-3xl font-semibold'>{title}</h1>
+          <p className='text-gray-500 dark:text-slate-400 text-sm lg:text-base'>
+            {subtitle}
+          </p>
         </div>
         {children}
       </div>

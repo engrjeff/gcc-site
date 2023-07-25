@@ -16,6 +16,7 @@ function CardImage({ src, alt }: CardImageProps) {
         alt={alt}
         aria-hidden='true'
         fill
+        sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
         className={[
           "object-cover object-center group-hover:scale-105 transition-transform duration-300 group-hover:opacity-75",
           isLoading ? "grayscale blur-2xl" : "grayscale-0 blur-0",

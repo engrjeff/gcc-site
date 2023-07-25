@@ -19,6 +19,7 @@
     "date-fns": "^2.29.3",
     "eslint": "8.36.0",
     "eslint-config-next": "13.2.4",
+    "googleapis": "^122.0.0",
     "next": "13.2.4",
     "next-contentlayer": "^0.3.2",
     "next-themes": "^0.2.1",
@@ -27,6 +28,7 @@
     "react-dom": "18.2.0",
     "rehype-autolink-headings": "^6.1.1",
     "rehype-slug": "^5.1.0",
+    "slugify": "^1.6.6",
     "typescript": "4.9.5"
   },
   "devDependencies": {
